@@ -8,6 +8,7 @@ import { ProductDetail } from './pages/ProductDetail.jsx';
 import { Cart } from './pages/Cart.jsx';
 import { CheckoutInfo } from './pages/CheckoutInfo.jsx';
 import { Support } from './pages/Support.jsx';
+import { PayResult } from './pages/PayResult.jsx';
 import { CartProvider } from './context/CartContext.js';
 import { AuthProvider } from './context/AuthContext.js';
 import { ProductProvider } from './context/ProductContext.js';
@@ -39,7 +40,7 @@ export default function App() {
                  element={  <ProectedPageRoute>
                                 <CheckoutInfo />
                             </ProectedPageRoute>  } />
-                
+          <Route path="/payResult" element={<PayResult />} />
           <Route path="/support" element={
             <ProectedPageRoute>
               <Support />
