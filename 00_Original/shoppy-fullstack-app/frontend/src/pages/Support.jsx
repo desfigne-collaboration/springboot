@@ -11,7 +11,7 @@ export function Support() {
 
     useEffect(()=>{
         const fetch = async() => {
-            const jsonData = await axiosData("/data/support.json");
+            const jsonData = await axiosData("/data/support.json"); //카테고리 가져오기
             const list = await getList('all');
             setMenus(jsonData.menus);
             setCategory(jsonData.category);

@@ -19,6 +19,9 @@ java {
 //}
 
 dependencies {
+    // Spring Boot WebFlux (WebClient 포함)
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
     //spring security
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
