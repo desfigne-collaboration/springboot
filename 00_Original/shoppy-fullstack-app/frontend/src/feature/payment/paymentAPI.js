@@ -1,30 +1,31 @@
 import { axiosPost } from '../../utils/dataFetch.js';
 
-/**
-    결제
-*/
-export const getPayment = async() => {
-      const { userId } = JSON.parse(localStorage.getItem("loginInfo"));
-      const url = "/payment/kakao/ready";
-      console.log("userId --> ", userId);
-      const data = {
-          "orderId" : "1234",
-          "userId" : userId,
-          "itemName" : "테스트 상품",
-          "qty" : "10",
-          "totalAmount" : "1000", // 결제 금액 (KRW)
-      }
-      try {
-          const kakaoReadyResult = await axiosPost(url, data);
-          // window.location.href = response.data.next_redirect_pc_url;
-            console.log("getPayment :: response --> ", kakaoReadyResult.next_redirect_pc_url);
+export const getPayment = async(receiver, paymentInfo, cartList) => {
+console.log(cartList);
+    const cidList = cartList.map(item => item.cid);
+    const qty = cartList.reduce((sum, item) => sum + parseInt(item.qty), 0);
+    const { userId } = JSON.parse(localStorage.getItem("loginInfo"));
+    const url = "/payment/kakao/ready";  //카카오 QR 코드 호출
+    const data = {
+        "orderId": "",
+        "userId": userId,
+        "itemName": cartList[0].name,
+        "qty": qty,
+        "totalAmount": cartList[0].totalPrice,
+        "receiver": receiver,
+        "paymentInfo": paymentInfo,
+        "cidList": cidList.join(",")
+    }
 
-          if (kakaoReadyResult.tid) {
-          console.log("tid-->", kakaoReadyResult.tid);
-              // setQrUrl(response.data.next_redirect_mobile_url);
-              window.location.href = kakaoReadyResult.next_redirect_pc_url;
-          }
-      } catch (error) {
-          console.error("QR 결제 요청 실패:", error);
-      }
+    try {
+        const kakaoReadyResult = await axiosPost(url, data);
+        console.log("kakaoReadyResult => ", kakaoReadyResult);
+        if(kakaoReadyResult.tid) {
+            //새로운 페이지 연결
+            window.location.href = kakaoReadyResult.next_redirect_pc_url;
+        }
+
+    } catch(error) {
+        console.log("error :: ", error);
+    }
 }

@@ -2,7 +2,6 @@ import { useSearchParams } from "react-router-dom";
 
 export function PayResult() {
   const [searchParams] = useSearchParams();
-
   const orderId = searchParams.get("orderId");
   const status = searchParams.get("status");
 
